@@ -58,6 +58,21 @@ def get_user_books_from_library():
             {"success": False, "message": "Failed to add book to library."}), HTTPStatus.INTERNAL_SERVER_ERROR
 
 
+@library.route('/get-dataset-books', methods=['GET'])
+@jwt_required()
+def get_user_books_from_dataset():
+    user_id = get_jwt_identity()
+    if not user_id:
+        return jsonify({'success': False, 'message': 'Session is invalid or expired ' + user_id}), HTTPStatus.UNAUTHORIZED
+
+    try:
+        response, status_code = LibraryService.get_user_books_from_dataset(user_id)
+        return make_response(jsonify(response), status_code)
+    except Exception as e:
+        return jsonify(
+            {"success": False, "message": "Failed to add book to dataset library."}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+
 @library.route('/get-books-by-title', methods=['GET'])
 @jwt_required()
 def get_filtered_books():
@@ -66,14 +81,15 @@ def get_filtered_books():
         return jsonify({'success': False, 'message': 'Session is invalid or expired'}), HTTPStatus.UNAUTHORIZED
 
     title = request.args.get('title', None)  # Use request.args for query parameters
-    exact_match = request.args.get('exact_match', None)
 
     if not title:
         return jsonify({"success": False, "message": "Title parameter is required."}), HTTPStatus.BAD_REQUEST
 
     try:
-        response, status_code = LibraryService.search_books_by_title(user_id, title, exact_match)
+        response, status_code = LibraryService.search_books_by_title(user_id, title)
         return make_response(jsonify(response), status_code)
     except Exception as e:
         return jsonify(
             {"success": False, "message": "Failed to add book to library."}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+

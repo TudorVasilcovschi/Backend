@@ -76,19 +76,20 @@ class Recommender:
     paths = {
         'books_users_processed_csv': os.path.join(MODEL_PATH, 'df_books_users_processed.csv.gz'),
         'books_processed_csv': os.path.join(MODEL_PATH, 'df_books_processed.csv.gz'),
-        'final_review': os.path.join(MODEL_PATH, 'df_final_review.csv.gz'),
+        'final_review': os.path.join(MODEL_PATH, 'df_final_review_good.csv.gz'),
         'vectorizer_description': os.path.join(MODEL_PATH, 'vectorizer_description.pkl'),
         'vectorizer_title': os.path.join(MODEL_PATH, 'vectorizer_title.pkl'),
-        'vectorizer_review': os.path.join(MODEL_PATH, 'vectorizer_review.pkl'),
+        'vectorizer_review': os.path.join(MODEL_PATH, 'vectorizer_review_good.pkl'),
+        'vectorizer_review_content': os.path.join(MODEL_PATH, 'vectorizer_review.pkl'),
         'tfidf_description': os.path.join(MODEL_PATH, 'tfidf_description.pkl'),
-        'tfidf_review': os.path.join(MODEL_PATH, 'tfidf_review.pkl'),
+        'tfidf_review': os.path.join(MODEL_PATH, 'tfidf_review_good.pkl'),
         'tfidf_title': os.path.join(MODEL_PATH, 'tfidf_title.pkl'),
         'le1': os.path.join(MODEL_PATH, 'le1.pkl'),
         'le4': os.path.join(MODEL_PATH, 'le4.pkl'),
         'le7': os.path.join(MODEL_PATH, 'le7.pkl'),
         'le9': os.path.join(MODEL_PATH, 'le9.pkl'),
         'norm': os.path.join(MODEL_PATH, 'norm.pkl'),
-        'clf_lr': os.path.join(MODEL_PATH, 'clf_lr_alade52.pkl'),
+        'clf_lr': os.path.join(MODEL_PATH, 'clf_lr.pkl'),
         'model_svd': os.path.join(MODEL_PATH, 'model_svd.pkl')
     }
 
@@ -111,9 +112,11 @@ class Recommender:
         self.le9 = None
         self.vectorizer_description = None
         self.vectorizer_review = None
+        self.vectorizer_review_content = None
         self.vectorizer_title = None
         self.tfidf_description = None
         self.tfidf_review = None
+        self.tfidf_review_content = None
         self.tfidf_title = None
         self.norm = None
         self.clf_lr = None
@@ -141,9 +144,11 @@ class Recommender:
                                                   ['le1', 'le4', 'le7', 'le9']]
         self.vectorizer_description = load_pickle_file(self.paths['vectorizer_description'])
         self.vectorizer_review = load_pickle_file(self.paths['vectorizer_review'])
+        self.vectorizer_review_content = load_pickle_file(self.paths['vectorizer_review_content'])
         self.vectorizer_title = load_pickle_file(self.paths['vectorizer_title'])
         self.tfidf_description = load_pickle_file(self.paths['tfidf_description'])
         self.tfidf_review = load_pickle_file(self.paths['tfidf_review'])
+        self.tfidf_review_content = load_pickle_file(self.paths['tfidf_review_content'])
         self.tfidf_title = load_pickle_file(self.paths['tfidf_title'])
         self.norm = load_pickle_file(self.paths['norm'])
         self.clf_lr = load_pickle_file(self.paths['clf_lr'])
@@ -215,22 +220,32 @@ class Recommender:
 
     def top_similar_reviews_books(self, book_id):
         try:
-            index = self.df_final_review[self.df_final_review['book_id'] == book_id].index
-            if len(index) == 0:  # check if index is empty
+            # Fetch index positions for the specific book_id
+            index_positions = self.df_final_review[self.df_final_review['book_id'] == book_id].index
+            if index_positions.empty:  # Ensure there are reviews for the book
                 print("No reviews found for the given book_id")
-                return []
-            similarity = cosine_similarity(self.tfidf_review[index], self.tfidf_review).flatten()
-            indices = np.argpartition(similarity, -50)[-50:]
-            book_ids = set(self.df_final_review.iloc[indices]['book_id'])
-            score = [(score, book) for score, book in enumerate(book_ids)]
-            df_score = pd.DataFrame(score, columns=['score', 'book_id'])
-            results = (
-                self.df_books_processed[self.df_books_processed['book_id'].isin(book_ids)].merge(df_score,
-                                                                                                 on='book_id')).sort_values(
-                by='score')
-            return results[['book_id', 'title_without_series', 'publication_year', 'publisher', 'average_rating', 'image_url', 'url', 'num_pages']].head(
-                10)
-        except Exception as _:
+                return pd.DataFrame()  # Return an empty DataFrame if no reviews found
+
+            # Calculate the cosine similarity
+            similarity_scores = cosine_similarity(self.tfidf_review[index_positions], self.tfidf_review).flatten()
+
+            # Find top indices directly from the DataFrame's index rather than positional indices
+            if len(similarity_scores) > 0:
+                indices = np.argpartition(similarity_scores, -50)[-50:]
+                book_ids = set(self.df_final_review.iloc[indices]['book_id'])
+                score = [(score, book) for score, book in enumerate(book_ids)]
+                df_score = pd.DataFrame(score, columns=['score', 'book_id'])
+                results = (self.df_books_processed[self.df_books_processed['book_id'].isin(book_ids)].merge(df_score,
+                                                                                                  on='book_id')).sort_values(by='score')
+
+                return results[
+                    ['book_id', 'title_without_series', 'publication_year', 'publisher', 'average_rating', 'image_url',
+                     'url', 'num_pages']]
+            else:
+                print("No similarity scores computed.")
+                return pd.DataFrame()
+        except Exception as e:
+            print(f"An error occurred: {e}")
             raise
 
     def similar_user_df(self, user_id):
@@ -264,13 +279,13 @@ class Recommender:
             raise
 
     # ======== Content Filtering ========
-    def content_recommendation(self, user_id, user_books):
-        # books_reviewed_by_user = set(
-        #     self.df_books_users_processed[self.df_books_users_processed['user_id'] == user_id]['book_id'])
-        # user_books = self.df_books_processed[
-        #     (~self.df_books_processed['book_id'].isin(list(books_reviewed_by_user)))].merge(self.df_final_review,
-        #                                                                                     on='book_id')
-        # user_books['user_id'] = len(user_books) * [user_id]
+    def content_recommendation(self, user_id):
+        books_reviewed_by_user = set(
+            self.df_books_users_processed[self.df_books_users_processed['user_id'] == user_id]['book_id'])
+        user_books = self.df_books_processed[
+            (~self.df_books_processed['book_id'].isin(list(books_reviewed_by_user)))].merge(self.df_final_review,
+                                                                                            on='book_id')
+        user_books['user_id'] = len(user_books) * [user_id]
         user_books.reset_index(drop=True, inplace=True)
         user_books = user_books[user_books['book_id'].isin(self.le1.classes_)]
         user_books['book_id_mapped'] = self.le1.transform(user_books['book_id'])
@@ -279,10 +294,10 @@ class Recommender:
         user_books['user_id_mapped'] = self.le9.transform(user_books['user_id'])
         user_books['combined_processed_review'].fillna("", inplace=True)
         tfidf_title = self.vectorizer_title.transform(user_books['mod_title'])
-        tfidf_review = self.vectorizer_review.transform(user_books['combined_processed_review'])
+        tfidf_review = self.vectorizer_review_content.transform(user_books['combined_processed_review'])
         user_book_numeric = user_books[
-            ['book_id_mapped', 'publisher_mapped', 'is_ebook_mapped', 'publication_year',
-             'ratings_count', 'average_rating', 'num_pages']]
+            ['book_id_mapped', 'publisher_mapped', 'is_ebook_mapped',  'user_id_mapped',
+             'publication_year', 'ratings_count', 'average_rating', 'num_pages']]
         data_scaled = self.norm.transform(user_book_numeric)
         data_scaled = hstack((data_scaled, tfidf_title, tfidf_review), dtype=np.float32)
 

@@ -28,6 +28,16 @@ def register():
         return make_response(jsonify(response), status_code)
 
 
+@auth.route('/register_dataset_user', methods=['POST'])
+def register_dataset_users():
+    user_id = request.get_json().get('user_id')
+    if not user_id:
+        return jsonify({'message': 'No user IDs provided'}), HTTPStatus.BAD_REQUEST
+
+    response, status_code = AuthService.register_dataset_user(user_id)
+    return make_response(jsonify(response), status_code)
+
+
 @auth.route('/login', methods=['POST'])
 def login():
     _json, response, status_code = request_validator.validate_and_extract_payload(request, ['username', 'password'])

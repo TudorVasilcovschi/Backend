@@ -133,26 +133,18 @@ class RecommendationService:
 
     def get_content_recommendations(self, user_id):
         try:
-            user_books = LibraryService.get_user_books_from_library(user_id)
-            if user_books[1] == HTTPStatus.OK and user_books[0]['books']:
-                user_books_df = pd.DataFrame(user_books[0]['books'])
-                results = self.recommender.content_recommendation(str(user_id), user_books_df)
-                if results.empty:  # Check if the result is empty
-                    return {
-                        'message': 'No content recommendations for the given book ID.',
-                        'books': [],
-                    }, HTTPStatus.OK  # Operation successful, but no data found
-
-                books = results.to_dict(orient='records')
+            results = self.recommender.content_recommendation(str(user_id))
+            if results.empty:  # Check if the result is empty
                 return {
-                    'message': 'Content recommendations fetched successfully.',
-                    'books': books,
-                }, HTTPStatus.OK
-            else:
-                return {
-                    'message': "Couldn't load books from user library",
+                    'message': 'No content recommendations for the given book ID.',
                     'books': [],
                 }, HTTPStatus.OK  # Operation successful, but no data found
+
+            books = results.to_dict(orient='records')
+            return {
+                'message': 'Content recommendations fetched successfully.',
+                'books': books,
+            }, HTTPStatus.OK
         except Exception as e:
             print(f"Service Error: {e}")
             return {

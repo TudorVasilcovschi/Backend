@@ -28,6 +28,7 @@ def get_content_recommendations():
 
 
 @recommendation.route('/user-similarity-recommendations', methods=['GET'])
+@jwt_required()
 def get_user_similarity_recommendations():
     user_id = get_jwt_identity()
     if not user_id:
@@ -58,6 +59,7 @@ def get_item_similarity_recommendations():
 
 
 @recommendation.route('/svd-recommendations', methods=['GET'])
+@jwt_required()
 def get_svd_recommendations():
     user_id = get_jwt_identity()
     if not user_id:
