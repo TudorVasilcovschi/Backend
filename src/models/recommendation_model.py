@@ -74,16 +74,21 @@ def load_extended_reviews_data():
 
 class Recommender:
     paths = {
-        'books_users_processed_csv': os.path.join(MODEL_PATH, 'df_books_users_processed.csv.gz'),
-        'books_processed_csv': os.path.join(MODEL_PATH, 'df_books_processed.csv.gz'),
-        'final_review': os.path.join(MODEL_PATH, 'df_final_review_good.csv.gz'),
-        'vectorizer_description': os.path.join(MODEL_PATH, 'vectorizer_description.pkl'),
-        'vectorizer_title': os.path.join(MODEL_PATH, 'vectorizer_title.pkl'),
-        'vectorizer_review': os.path.join(MODEL_PATH, 'vectorizer_review_good.pkl'),
-        'vectorizer_review_content': os.path.join(MODEL_PATH, 'vectorizer_review.pkl'),
+        # common
+        'final_review': os.path.join(MODEL_PATH, 'df_final_review.csv.gz'),
         'tfidf_description': os.path.join(MODEL_PATH, 'tfidf_description.pkl'),
-        'tfidf_review': os.path.join(MODEL_PATH, 'tfidf_review_good.pkl'),
-        'tfidf_title': os.path.join(MODEL_PATH, 'tfidf_title.pkl'),
+        'vectorizer_description': os.path.join(MODEL_PATH, 'vectorizer_description.pkl'),
+        # this is for first cut system
+        'vectorizer_title_fc': os.path.join(MODEL_PATH, 'vectorizer_title.pkl'),
+        # 'vectorizer_review_fc': os.path.join(MODEL_PATH, 'vectorizer_review_similarity.pkl'),
+        'tfidf_review_fc': os.path.join(MODEL_PATH, 'tfidf_review_similarity.pkl'),
+        'tfidf_title_fc': os.path.join(MODEL_PATH, 'tfidf_title.pkl'),
+        # this is for content recommendation
+        'vectorizer_title': os.path.join(MODEL_PATH, 'vectorizer_title_content.pkl'),
+        'vectorizer_review': os.path.join(MODEL_PATH, 'vectorizer_review_content.pkl'),
+        # 'tfidf_review': os.path.join(MODEL_PATH, 'tfidf_review_content.pkl'),
+        # 'tfidf_title': os.path.join(MODEL_PATH, 'tfidf_title_content.pkl'),
+
         'le1': os.path.join(MODEL_PATH, 'le1.pkl'),
         'le4': os.path.join(MODEL_PATH, 'le4.pkl'),
         'le7': os.path.join(MODEL_PATH, 'le7.pkl'),
@@ -103,7 +108,7 @@ class Recommender:
         return cls._instance
 
     def __init__(self):
-        self.df_books_users_processed = None
+        self.df_books_reviews_processed = None
         self.df_books_processed = None
         self.df_final_review = None
         self.le1 = None
@@ -112,12 +117,11 @@ class Recommender:
         self.le9 = None
         self.vectorizer_description = None
         self.vectorizer_review = None
-        self.vectorizer_review_content = None
+        self.vectorizer_title_fc = None
         self.vectorizer_title = None
         self.tfidf_description = None
-        self.tfidf_review = None
-        self.tfidf_review_content = None
-        self.tfidf_title = None
+        self.tfidf_review_fc = None
+        self.tfidf_title_fc = None
         self.norm = None
         self.clf_lr = None
         self.model_svd = None
@@ -134,7 +138,7 @@ class Recommender:
             future_extended_reviews = executor.submit(load_extended_reviews_data)
             try:
                 self.df_books_processed = future_books.result()
-                self.df_books_users_processed = future_reviews.result()
+                self.df_books_reviews_processed = future_reviews.result()
                 self.df_final_review = future_extended_reviews.result()
 
             except Exception as e:
@@ -144,12 +148,11 @@ class Recommender:
                                                   ['le1', 'le4', 'le7', 'le9']]
         self.vectorizer_description = load_pickle_file(self.paths['vectorizer_description'])
         self.vectorizer_review = load_pickle_file(self.paths['vectorizer_review'])
-        self.vectorizer_review_content = load_pickle_file(self.paths['vectorizer_review_content'])
+        self.vectorizer_title_fc = load_pickle_file(self.paths['vectorizer_title_fc'])
         self.vectorizer_title = load_pickle_file(self.paths['vectorizer_title'])
         self.tfidf_description = load_pickle_file(self.paths['tfidf_description'])
-        self.tfidf_review = load_pickle_file(self.paths['tfidf_review'])
-        self.tfidf_review_content = load_pickle_file(self.paths['tfidf_review_content'])
-        self.tfidf_title = load_pickle_file(self.paths['tfidf_title'])
+        self.tfidf_review_fc = load_pickle_file(self.paths['tfidf_review_fc'])
+        self.tfidf_title_fc = load_pickle_file(self.paths['tfidf_title_fc'])
         self.norm = load_pickle_file(self.paths['norm'])
         self.clf_lr = load_pickle_file(self.paths['clf_lr'])
         self.model_svd = load_pickle_file(self.paths['model_svd'])
@@ -197,8 +200,8 @@ class Recommender:
         title = re.sub("[^a-zA-Z0-9 ]", "", title.lower())
 
         try:
-            query_vec = self.vectorizer_title.transform([title])
-            similarity = cosine_similarity(query_vec, self.tfidf_title).flatten()
+            query_vec = self.vectorizer_title_fc.transform([title])
+            similarity = cosine_similarity(query_vec, self.tfidf_title_fc).flatten()
             indices = np.argpartition(similarity, -50)[-50:]
             results = self.df_books_processed.iloc[indices]
             return results[['book_id', 'title_without_series', 'publication_year', 'publisher', 'average_rating', 'image_url', 'url', 'num_pages']].head(10)
@@ -227,7 +230,7 @@ class Recommender:
                 return pd.DataFrame()  # Return an empty DataFrame if no reviews found
 
             # Calculate the cosine similarity
-            similarity_scores = cosine_similarity(self.tfidf_review[index_positions], self.tfidf_review).flatten()
+            similarity_scores = cosine_similarity(self.tfidf_review_fc[index_positions], self.tfidf_review_fc).flatten()
 
             # Find top indices directly from the DataFrame's index rather than positional indices
             if len(similarity_scores) > 0:
@@ -250,14 +253,14 @@ class Recommender:
 
     def similar_user_df(self, user_id):
         try:
-            df_liked_books = self.df_books_users_processed[self.df_books_users_processed['user_id'] == user_id]
+            df_liked_books = self.df_books_reviews_processed[self.df_books_reviews_processed['user_id'] == user_id]
             liked_books = set(df_liked_books['book_id'])
             top_5_liked_books = df_liked_books.sort_values(by='rating', ascending=False)['book_id'][:5]
             similar_user = \
-                self.df_books_users_processed[
-                    (self.df_books_users_processed['book_id'].isin(top_5_liked_books)) & (self.df_books_users_processed['rating'] > 4)][
+                self.df_books_reviews_processed[
+                    (self.df_books_reviews_processed['book_id'].isin(top_5_liked_books)) & (self.df_books_reviews_processed['rating'] > 4)][
                     'user_id']
-            data = self.df_books_users_processed[(self.df_books_users_processed['user_id'].isin(similar_user))][
+            data = self.df_books_reviews_processed[(self.df_books_reviews_processed['user_id'].isin(similar_user))][
                 ['user_id', 'book_id', 'title_without_series', 'publication_year', 'publisher', 'average_rating', 'image_url', 'url', 'num_pages', 'ratings_count']]
             return data, liked_books
         except Exception as _:
@@ -281,12 +284,13 @@ class Recommender:
     # ======== Content Filtering ========
     def content_recommendation(self, user_id):
         books_reviewed_by_user = set(
-            self.df_books_users_processed[self.df_books_users_processed['user_id'] == user_id]['book_id'])
+            self.df_books_reviews_processed[self.df_books_reviews_processed['user_id'] == user_id]['book_id'])
         user_books = self.df_books_processed[
             (~self.df_books_processed['book_id'].isin(list(books_reviewed_by_user)))].merge(self.df_final_review,
                                                                                             on='book_id')
         user_books['user_id'] = len(user_books) * [user_id]
         user_books.reset_index(drop=True, inplace=True)
+        user_books['book_id'] = user_books['book_id'].astype(str)  # Convert book_id to string for comparison
         user_books = user_books[user_books['book_id'].isin(self.le1.classes_)]
         user_books['book_id_mapped'] = self.le1.transform(user_books['book_id'])
         user_books['publisher_mapped'] = self.le4.transform(user_books['publisher'])
@@ -294,7 +298,7 @@ class Recommender:
         user_books['user_id_mapped'] = self.le9.transform(user_books['user_id'])
         user_books['combined_processed_review'].fillna("", inplace=True)
         tfidf_title = self.vectorizer_title.transform(user_books['mod_title'])
-        tfidf_review = self.vectorizer_review_content.transform(user_books['combined_processed_review'])
+        tfidf_review = self.vectorizer_review.transform(user_books['combined_processed_review'])
         user_book_numeric = user_books[
             ['book_id_mapped', 'publisher_mapped', 'is_ebook_mapped',  'user_id_mapped',
              'publication_year', 'ratings_count', 'average_rating', 'num_pages']]
@@ -312,10 +316,10 @@ class Recommender:
     def similar_users(self, user_id):
         # ia cartile apreciate the utilizator
         books_liked_by_user = set(
-            self.df_books_users_processed[self.df_books_users_processed['user_id'] == user_id]['book_id'])
+            self.df_books_reviews_processed[self.df_books_reviews_processed['user_id'] == user_id]['book_id'])
         # ia numarul cartilor comune apreciate pentru fiecare utilizator
         count_other_similar_users = \
-            self.df_books_users_processed[self.df_books_users_processed['book_id'].isin(books_liked_by_user)][
+            self.df_books_reviews_processed[self.df_books_reviews_processed['book_id'].isin(books_liked_by_user)][
                 'user_id'].value_counts()
         df_similar_user = count_other_similar_users.to_frame().reset_index()
         df_similar_user.columns = ['user_id', 'matching_book_count']  # doar coloanele astea ne intereseaza
@@ -326,7 +330,7 @@ class Recommender:
         top_users = set(top_onepercent_similar_users['user_id'])
 
         # construieste matricea une randul = utilizator, coloana = carte, celula = raitng-ul
-        df_similar_user = self.df_books_users_processed[(self.df_books_users_processed['user_id'].isin(top_users))][
+        df_similar_user = self.df_books_reviews_processed[(self.df_books_reviews_processed['user_id'].isin(top_users))][
             ['user_id_mapped', 'book_id_mapped', 'rating', 'user_id', 'book_id', 'title_without_series',
              'ratings_count', 'image_url', 'url', 'average_rating']]
         ratings_mat_coo = coo_matrix(
@@ -361,11 +365,11 @@ class Recommender:
     def item_similarity_recommendation(self, book_id):
         # utilizatorii care au apreciat cartea
         users_who_liked_book = set(
-            self.df_books_users_processed[self.df_books_users_processed['book_id'] == book_id]['user_id'])
+            self.df_books_reviews_processed[self.df_books_reviews_processed['book_id'] == book_id]['user_id'])
 
         # evaluările altor cărți ale utilizatorilor care au apreciat cartea data
-        books_id_remaining = self.df_books_users_processed[
-            (self.df_books_users_processed['user_id'].isin(list(users_who_liked_book)))]
+        books_id_remaining = self.df_books_reviews_processed[
+            (self.df_books_reviews_processed['user_id'].isin(list(users_who_liked_book)))]
 
         # matrice de evaluări unde rândurile reprezintă cărțile și coloanele reprezintă utilizatorii.
         ratings_mat_coo = coo_matrix((books_id_remaining["rating"],
@@ -382,9 +386,9 @@ class Recommender:
         df_score = pd.DataFrame(score, columns=['score', 'book_id_mapped'])
 
         # Se combină datele din df_books_users_processed cu df_score pentru a obține ID-urile cărților și scorurile lor.
-        df_similar_books_to_recommend = (self.df_books_users_processed[(
-            self.df_books_users_processed['book_id_mapped'].isin(list(similar_books_index)))].merge(df_score,
-                                                                                                    on='book_id_mapped'))[
+        df_similar_books_to_recommend = (self.df_books_reviews_processed[(
+            self.df_books_reviews_processed['book_id_mapped'].isin(list(similar_books_index)))].merge(df_score,
+                                                                                                      on='book_id_mapped'))[
             ['book_id', 'score']]
         # se elimina duplicatele
         unique_df_similar_books_to_recommend = df_similar_books_to_recommend.drop_duplicates(keep='first')
@@ -395,7 +399,7 @@ class Recommender:
         return final_books[['book_id', 'title_without_series', 'publication_year', 'publisher', 'average_rating', 'image_url', 'url', 'num_pages']].head(10)
 
     def svd_recommendation(self, user_id):
-        book_id = set(self.df_books_users_processed[self.df_books_users_processed['user_id'] == user_id]['book_id'])
+        book_id = set(self.df_books_reviews_processed[self.df_books_reviews_processed['user_id'] == user_id]['book_id'])
         user_books = self.df_books_processed[~self.df_books_processed['book_id'].isin(book_id)].copy()
         user_books['user_id'] = len(user_books) * [user_id]
         user_books.reset_index(drop=True, inplace=True)
