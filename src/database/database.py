@@ -1,5 +1,6 @@
 import os
 
+import psycopg2
 from psycopg2 import pool
 
 class Database:
@@ -7,7 +8,8 @@ class Database:
 
     @classmethod
     def initialize(cls, **kwargs):
-        cls.__connection_pool = pool.SimpleConnectionPool(1, 10, **kwargs)
+        if not cls.__connection_pool:
+            cls.__connection_pool = pool.SimpleConnectionPool(1, 10, **kwargs)
 
     @classmethod
     def get_connection(cls):
@@ -20,13 +22,3 @@ class Database:
     @classmethod
     def close_all_connections(cls):
         cls.__connection_pool.closeall()
-
-# Initialize the connection pool
-database_args = {
-    'dbname': os.getenv('DB_NAME'),
-    'user': os.getenv('DB_USER'),
-    'password': os.getenv('DB_PASSWORD'),
-    'host': os.getenv('DB_HOST'),
-    'port': os.getenv('DB_PORT')
-}
-Database.initialize(**database_args)

@@ -10,9 +10,9 @@ class LibraryService:
     @staticmethod
     def add_book_to_user_library(user_id, book_id):
         conn = Database.get_connection()
-        cursor = conn.cursor()
         if not conn:
             return {'message': 'Database connection error'}, HTTPStatus.SERVICE_UNAVAILABLE
+        cursor = conn.cursor()
 
         try:
             cursor.execute("SELECT * FROM user_library WHERE user_id = %s AND book_id = %s", (user_id, book_id))

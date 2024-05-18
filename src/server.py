@@ -1,6 +1,20 @@
 from dotenv import load_dotenv
-load_dotenv()
 import os
+from database.database import Database
+
+load_dotenv()
+
+# Initialize the connection pool
+database_args = {
+    'dbname': os.getenv('DB_NAME'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'host': os.getenv('DB_HOST'),
+    'port': os.getenv('DB_PORT')
+}
+Database.initialize(**database_args)
+
+
 import logging
 from config import LOGGING_CONFIG
 from flask import Flask
@@ -10,6 +24,7 @@ from datetime import timedelta
 from src.controllers.recommendation_controller import recommendation as recommendation_blueprint
 from src.controllers.auth_controller import auth as auth_blueprint
 from src.controllers.library_controller import library as library_blueprint
+
 
 
 app = Flask(__name__)
