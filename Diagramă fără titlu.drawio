@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-05-26T21:36:32.555Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="puhUNpFs-Mo6vMYZKA_y" version="24.4.8" type="github">
+<mxfile host="app.diagrams.net" modified="2024-05-27T05:39:38.166Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="VAlCKYRbjjXFWtfeO5pq" version="24.4.8" type="github">
   <diagram name="Pagină-1" id="ZqHVs9eBvrRiEuhmNyVy">
-    <mxGraphModel dx="1582" dy="1656" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1674" dy="796" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -66,53 +66,94 @@
         <mxCell id="z1RmfK9F2IyAydLtJt7b-17" value="+&amp;nbsp;get_content_recommendations(user_id): Tuple[dict, int]&lt;div&gt;+&amp;nbsp;get_user_similarity_recommendations&lt;span style=&quot;background-color: initial;&quot;&gt;(user_id): Tuple[dict, int]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_item_similarity_recommendations&lt;span style=&quot;background-color: initial;&quot;&gt;(book_id): Tuple[dict, int]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_svd_recommendations&lt;span style=&quot;background-color: initial;&quot;&gt;(user_id): Tuple[dict, int]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_top_book_average_rating(user_id): DataFrame&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_top_short_books&lt;span style=&quot;background-color: initial;&quot;&gt;(user_id): DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_top_paper_books&lt;span style=&quot;background-color: initial;&quot;&gt;(user_id): DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ get_top_e_books&lt;span style=&quot;background-color: initial;&quot;&gt;(user_id): DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_top_similar_title_books(title):&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;Tuple[dict, int]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_top_similar_description_books(description):&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;Tuple[dict, int]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_top_similar_reviews_books(book_id):&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;Tuple[dict, int]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;get_top_users_choice_books(user_id):&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;Tuple[dict, int]&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="z1RmfK9F2IyAydLtJt7b-14" vertex="1">
           <mxGeometry y="58" width="330" height="232" as="geometry" />
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-1" value="&lt;span style=&quot;font-size: 14px; font-weight: 400; text-align: left; white-space: pre; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;LibraryService&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-1" value="&lt;span style=&quot;font-size: 14px; font-weight: 400; text-align: left; white-space: pre; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;LibraryService&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="570" y="430" width="330" height="190" as="geometry">
             <mxRectangle x="100" y="120" width="100" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="cQhRhofsQ2P9EpVAxb7k-1">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="cQhRhofsQ2P9EpVAxb7k-1" vertex="1">
           <mxGeometry y="26" width="330" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-4" value="+ add_book_to_user_library(user_id, book_id): Tuple[dict, HTTPStatus]&lt;div&gt;+ remove_book_from_user_library(user_id, book_id): Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+ get_user_books_from_library(user_id):Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+ get_user_books_from_dataset(user_id):Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+&amp;nbsp;search_books_by_title(user_id, search_query): Tuple[dict, HTTPStatus]&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cQhRhofsQ2P9EpVAxb7k-1">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-4" value="+ add_book_to_user_library(user_id, book_id): Tuple[dict, HTTPStatus]&lt;div&gt;+ remove_book_from_user_library(user_id, book_id): Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+ get_user_books_from_library(user_id):Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+ get_user_books_from_dataset(user_id):Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+&amp;nbsp;search_books_by_title(user_id, search_query): Tuple[dict, HTTPStatus]&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="cQhRhofsQ2P9EpVAxb7k-1" vertex="1">
           <mxGeometry y="34" width="330" height="156" as="geometry" />
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-5" value="&lt;span style=&quot;font-size: 14px; font-weight: 400; text-align: left; white-space: pre; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;AuthService&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-5" value="&lt;span style=&quot;font-size: 14px; font-weight: 400; text-align: left; white-space: pre; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;AuthService&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="570" y="640" width="330" height="130" as="geometry">
             <mxRectangle x="100" y="120" width="100" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-6" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="cQhRhofsQ2P9EpVAxb7k-5">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-6" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="cQhRhofsQ2P9EpVAxb7k-5" vertex="1">
           <mxGeometry y="26" width="330" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-7" value="+ authenticate_user(username, password): Tuple[dict, HTTPStatus]&lt;div&gt;+ register_user(username, password): Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+ register_dataset_user(user_id, password):Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cQhRhofsQ2P9EpVAxb7k-5">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-7" value="+ authenticate_user(username, password): Tuple[dict, HTTPStatus]&lt;div&gt;+ register_user(username, password): Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;+ register_dataset_user(user_id, password):Tuple[dict, HTTPStatus]&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="cQhRhofsQ2P9EpVAxb7k-5" vertex="1">
           <mxGeometry y="34" width="330" height="96" as="geometry" />
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-11" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" edge="1" parent="1">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-11" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="410" y="470" as="sourcePoint" />
             <mxPoint x="570" y="470" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-12" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" edge="1" parent="1">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-12" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="410" y="680" as="sourcePoint" />
             <mxPoint x="570" y="680" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-14" value="&lt;span style=&quot;font-size: 14px; font-weight: 400; text-align: left; white-space: pre; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;Recommender&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="960" y="120" width="330" height="290" as="geometry">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-14" value="&lt;span style=&quot;font-size: 14px; font-weight: 400; text-align: left; white-space: pre; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;Recommender&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1060" y="120" width="330" height="290" as="geometry">
             <mxRectangle x="100" y="120" width="100" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-15" value="- recommender: Recommender" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cQhRhofsQ2P9EpVAxb7k-14">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-15" value="- recommender: Recommender" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="cQhRhofsQ2P9EpVAxb7k-14" vertex="1">
           <mxGeometry y="26" width="330" height="24" as="geometry" />
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-16" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="cQhRhofsQ2P9EpVAxb7k-14">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-16" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="cQhRhofsQ2P9EpVAxb7k-14" vertex="1">
           <mxGeometry y="50" width="330" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="cQhRhofsQ2P9EpVAxb7k-17" value="+&amp;nbsp;load_books_data()&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;load_reviews_data()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;load_extended_reviews_data()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ load_data()&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;top_book_average_rating()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;top_short_books()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;top_paper_books()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;top_e_books()&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ top_similar_title_books&lt;span style=&quot;background-color: initial;&quot;&gt;(title)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;top_similar_description_books(description)&lt;/div&gt;&lt;div&gt;+&amp;nbsp;top_similar_reviews_books(book_id)&lt;/div&gt;&lt;div&gt;+&amp;nbsp;similar_user_df(user_id)&lt;/div&gt;&lt;div&gt;+&amp;nbsp;top_users_choice_books(recs, liked_books)&lt;/div&gt;&lt;div&gt;+&amp;nbsp;content_recommendation(user_id)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="cQhRhofsQ2P9EpVAxb7k-14">
+        <mxCell id="cQhRhofsQ2P9EpVAxb7k-17" value="+&amp;nbsp;load_books_data()&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;load_reviews_data()&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;load_extended_reviews_data()&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ load_data()&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;top_book_average_rating()&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;top_short_books()&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;top_paper_books()&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;top_e_books()&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ top_similar_title_books&lt;span style=&quot;background-color: initial;&quot;&gt;(title)&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;top_similar_description_books(description)&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;top_similar_reviews_books(book_id)&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;similar_user_df(user_id)&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;top_users_choice_books(recs, liked_books)&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+&amp;nbsp;content_recommendation(user_id)&lt;span style=&quot;background-color: initial;&quot;&gt;: DataFrame&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="cQhRhofsQ2P9EpVAxb7k-14" vertex="1">
           <mxGeometry y="58" width="330" height="232" as="geometry" />
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-1" value="&lt;span style=&quot;font-size: 14px; font-weight: 400; text-align: left; white-space: pre; background-color: rgb(255, 255, 255);&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;Database&lt;/font&gt;&lt;/span&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="520" width="330" height="80" as="geometry">
+            <mxRectangle x="100" y="120" width="100" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-2" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="-e4NmgwVaP7KaRJ7PjCO-1">
+          <mxGeometry y="26" width="330" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-3" value="+ getConnection() Connection&lt;div&gt;+ return_connection(conn): None&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="-e4NmgwVaP7KaRJ7PjCO-1">
+          <mxGeometry y="34" width="330" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-6" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="900" y="160" as="sourcePoint" />
+            <mxPoint x="1060" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-7" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=-0.006;entryY=-0.022;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="-e4NmgwVaP7KaRJ7PjCO-3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="900" y="460" as="sourcePoint" />
+            <mxPoint x="1060" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-8" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="z1RmfK9F2IyAydLtJt7b-15">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="910" y="470" as="sourcePoint" />
+            <mxPoint x="1020" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-9" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.997;exitY=0.385;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.012;entryY=0.37;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="cQhRhofsQ2P9EpVAxb7k-7" target="-e4NmgwVaP7KaRJ7PjCO-3">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="910" y="470" as="sourcePoint" />
+            <mxPoint x="1020" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-e4NmgwVaP7KaRJ7PjCO-10" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.442;exitY=1.017;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="cQhRhofsQ2P9EpVAxb7k-17" target="-e4NmgwVaP7KaRJ7PjCO-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1081" y="450" as="sourcePoint" />
+            <mxPoint x="1241" y="450" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
